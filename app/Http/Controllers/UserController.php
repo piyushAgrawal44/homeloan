@@ -29,16 +29,19 @@ class UserController extends Controller
             if (Auth::attempt(array('email' => $email, 'password' => $password, 'active' => 1))) {
 
                 if (Auth::user()->role == 1) {
-                    return redirect('dashboard');
+                    return redirect('/dashboard');
                 } else{
                     return redirect('/');
                 }
                
             }
+            else {
+                return back()->withErrors(['message' => 'User Credentials are incorrect']);
+            }
         } catch (\Throwable $th) {
             return back()->withErrors(['message' => 'Internal Server Error !']);
         }
-        return back()->withErrors(['message' => 'User Credentials are incorrect']);
+        
     }
 
     public function register(Request $request){
@@ -68,10 +71,11 @@ class UserController extends Controller
             'token' =>  $token,
             'active' => 1
         ]);
+        return view("login")->with('success', ('Successfully account created !'));
        } catch (\Throwable $th) {
             return back()->withErrors(['message' => 'Internal Server Error !']);
        }
-        return view("login")->with('success', ('Successfully account created !'));
+        
     }
 
     public function userProfile(){

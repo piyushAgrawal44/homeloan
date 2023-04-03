@@ -14,6 +14,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lilita+One&display=swap" rel="stylesheet">
     
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <!-- For responsive datatable -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
     <style>
       *{
           padding: 0%;
@@ -102,17 +106,16 @@
 
     {{-- Navbar --}}
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+    <nav class="navbar  navbar-dark bg-primary sticky-top">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/"><b>LoanBook</b></a>
+        <a class="navbar-brand" href="/dashboard"><b>LoanBook</b></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
           <div class="navbar-nav ms-auto">
               @if (Auth::check())
-                <a class="text-decoration-none text-light me-3" href="/newloan"><i class="bi bi-plus-lg"></i> New Loan</a>
-                <a class="text-decoration-none text-light me-3" href="/loan/history"><i class="bi bi-clock-history"></i> Loan History</a>
+                <a class="text-decoration-none text-light me-3" href="loan/analytics"><i class="bi bi-bank2"></i> Manage Loan Requests</a>
                 <a class="text-decoration-none text-light me-3" href="/profile"><i class="bi bi-person-circle"></i> Profile</a>
                 <a class="text-decoration-none text-light" href="/logout"><i class="bi bi-door-open"></i> Logout</a>
               @else
@@ -137,9 +140,11 @@
         @endif
     @endif
 
+    
+
     @if($errors->any())
     <div class="alert alert-danger alert-dismissible fade show m-2" role="alert">
-        <strong>{{$errors->first()}}
+        <strong>{{$errors->first()}}<strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
@@ -154,7 +159,11 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <!-- For responsive datatable -->
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
 
+    
     @stack('js')
 </body>
 </html>

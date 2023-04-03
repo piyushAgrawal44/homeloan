@@ -1,4 +1,4 @@
-@extends('header')
+@extends('admin.header')
 @section('content')
 @push('css')
 <style>
@@ -18,6 +18,10 @@
         <div class="col-12  align-self-center">
 
             <h2 class="mb-2 font-lilita">Loan Details :</h2>
+            <h6 class="d-flex justify-content-between">
+                <span>Interest Rate : 12% per Annum</span>
+                <span>15 days EMI</span>
+            </h6>
             <div class="table-responsive mb-3">
                 <table class="table">
                     <thead>
@@ -29,6 +33,12 @@
                     </thead>
                     <tbody>
                         @foreach ($loanDetails as $item)
+                            @php
+                                $loan_id=$item['id'];
+                                $loan_status=$item["status"];
+                                $loan_amt=$item["loan_amt"];
+                                $loan_duration=$item["loan_duration"]*12;
+                            @endphp
                             <tr>
                                 <td>{{$item["loan_amt"]}}</td>
                                 <td>{{$item["loan_duration"]}} Years</td>
@@ -149,7 +159,65 @@
                   </table>
             </div>
 
-           
+            <h2 class="mb-2 font-lilita text-primary">Update Loan Status : </h2>
+            <h6>Current Status: <span class=""><b><u>{{$statusArr[$loan_status]}}</u></b></span></h6>
+            <form class="" action="/update/loan" method="POST" onsubmit="return updateLoan()">
+                @csrf
+                <label for="loan_status" class="form-label"><b>Loan Status</b> <span class="text-danger">*</span></label>
+                <select class="form-select" name="loan_status" required >
+                    <?php if ($loan_status!=1) {
+                    ?>
+                        <option value="1">Pending</option>
+                    <?php
+                        } 
+                    if ($loan_status!=2) {
+                    ?>
+                        <option value="2">Approved</option>
+                    <?php
+                        } 
+                        if ($loan_status!=3) {
+                    ?>
+                        <option value="3">Money Transferred</option>
+                    <?php
+                        } 
+
+                        if ($loan_status!=4) {
+                    ?>
+                        <option value="4">Repayment Start</option>
+                    <?php
+                        } 
+                        if ($loan_status!=5) {
+                    ?>
+                         <option value="5">Finished</option>
+                    <?php
+                        }
+                    ?>
+
+                    
+                    
+                    
+                   
+                  </select>
+                @error('loan_status')
+                <span class="text-danger" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+                
+                <input type="text" name="loan_id" hidden class="d-none" readonly value="{{$loan_id}}">
+                <input type="text" name="old_loan_status" hidden class="d-none" readonly value="{{$loan_status}}">
+                <div class="mb-3">
+                    <label for="remark" class="form-label"><b>Add Remark</b> <span class="text-danger">*</span></label>
+                    <textarea class="form-control" name="remark" id="remark" required>{{ old('remark') }}</textarea>
+                    @error('remark')
+                    <span class="text-danger" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                  </div>
+               
+                <button type="submit" id="submit_btn" class="btn btn-primary btn-lg mb-2">Update</button>
+            </form>
         </div>
         @else
             <a class="btn btn-primary btn-lg" href="/">Home Page</a>
@@ -160,25 +228,18 @@
 
 @push('js')
     <script>
-        function requestLoan(){
-            let job_type=document.getElementById("job_type").value.trim();
-            if (!job_type || job_type=="" || job_type==" ") {
-                alert("Job Type can not be empty !");
+        function updateLoan(){
+            let remark=document.getElementById("remark").value.trim();
+            if (!remark || remark=="" || remark==" ") {
+                alert("Remark can not be empty !");
                 return false;
             }
-
-            let annual_salary=document.getElementById("annual_salary").value.trim();
-            if (!annual_salary || annual_salary=="" || annual_salary==" ") {
-                alert("annual Salary can not be empty !");
+            if (confirm("Are you sure !")) {
+                return true;
+            } else {
                 return false;
             }
-            let address=document.getElementById("address").value.trim();
-            if (!address || address=="" || address==" ") {
-                alert("Address can not be empty !");
-                return false;
-            }
-
-            return true;
+            return false;
         }
     </script>
 @endpush

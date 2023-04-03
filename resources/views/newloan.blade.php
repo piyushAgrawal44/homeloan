@@ -16,8 +16,8 @@
             <img src="{{ asset('images/home.jpg') }}" class="home-image" alt="home">
         </div>
         <div class="col-12  align-self-center">
-            <h1 class="font-lilita mb-3 text-center">Request a new loan now !</h1>
-
+            <h1 class="font-lilita mb-1 text-center">Request a new loan now !</h1>
+            <h6 class="text-primary mb-3 text-center">Interest Rate: 12% per Annum on 15 days EMI</h6>
 
             <form class="" action="/newloan" method="POST" onsubmit="return requestLoan()" enctype="multipart/form-data">
                 @csrf

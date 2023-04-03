@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoanController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('home');
@@ -42,3 +43,15 @@ Route::controller(LoanController::class)->group(function () {
     Route::get('/loan/history', 'loanHistory');
     Route::get('/loan/history/{id}', 'loanDetails');
 });
+
+
+
+Route::controller(AdminController::class)->group(function () {
+    Route::get('/dashboard', 'dashboard');
+    Route::get('/loan/analytics', 'loanAnalytics');
+    Route::get('/user/analytics', 'userAnalytics');
+    Route::get('/admin/loan/history/{id}', 'loanDetails');
+    Route::post('/update/loan', 'updateLoan');
+
+});
+
